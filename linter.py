@@ -4,6 +4,7 @@ import typer
 from typing_extensions import Annotated
 
 from logger import Logger
+from parsemachine import ParseMachine
 
 _log_file_name = "logs/{date}_{time}.log"
 logger: Logger
@@ -13,6 +14,8 @@ def lint_file(in_file_name: str, out_file_name: str):
     try:
         with open(in_file_name, "r", encoding="utf-8") as f:
             logger.log(f"Reading {in_file_name}")
+            for line in f:
+                out_line: str = parse_line(line)
             logger.log(f"Finished reading {in_file_name}")
     except FileNotFoundError:
         logger.log(f"{in_file_name} does not exist")
